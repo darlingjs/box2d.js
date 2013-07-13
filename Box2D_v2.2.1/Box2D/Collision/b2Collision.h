@@ -94,17 +94,20 @@ struct b2ManifoldPoint
 /// This structure is stored across time steps, so we keep it small.
 struct b2Manifold
 {
-	enum Type
+	b2Manifold() {}
+	
+	/* data */
+	enum b2ManifoldType
 	{
 		e_circles,
 		e_faceA,
 		e_faceB
 	};
-
+	
 	b2ManifoldPoint points[b2_maxManifoldPoints];	///< the points of contact
 	b2Vec2 localNormal;								///< not use for Type::e_points
 	b2Vec2 localPoint;								///< usage depends on manifold type
-	Type type;
+	uint32 type;
 	int32 pointCount;								///< the number of manifold points
 };
 

@@ -36,7 +36,7 @@ struct b2ContactPositionConstraint
 	float32 invMassA, invMassB;
 	b2Vec2 localCenterA, localCenterB;
 	float32 invIA, invIB;
-	b2Manifold::Type type;
+	uint32 type;
 	float32 radiusA, radiusB;
 	int32 pointCount;
 };
