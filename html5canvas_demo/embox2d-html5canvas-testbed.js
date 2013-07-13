@@ -203,11 +203,11 @@ function zoomOut() {
         
 function updateDebugDrawCheckboxesFromWorld() {
     var flags = myDebugDraw.GetFlags();
-    document.getElementById('drawShapesCheck').checked = (( flags & e_shapeBit ) != 0);
-    document.getElementById('drawJointsCheck').checked = (( flags & e_jointBit ) != 0);
-    document.getElementById('drawAABBsCheck').checked = (( flags & e_aabbBit ) != 0);
-    //document.getElementById('drawPairsCheck').checked = (( flags & e_pairBit ) != 0);
-    document.getElementById('drawTransformsCheck').checked = (( flags & e_centerOfMassBit ) != 0);
+//    document.getElementById('drawShapesCheck').checked = (( flags & e_shapeBit ) != 0);
+//    document.getElementById('drawJointsCheck').checked = (( flags & e_jointBit ) != 0);
+//    document.getElementById('drawAABBsCheck').checked = (( flags & e_aabbBit ) != 0);
+//    //document.getElementById('drawPairsCheck').checked = (( flags & e_pairBit ) != 0);
+//    document.getElementById('drawTransformsCheck').checked = (( flags & e_centerOfMassBit ) != 0);
 }
 
 function updateWorldFromDebugDrawCheckboxes() {
@@ -267,7 +267,7 @@ function init() {
         onKeyUp(canvas,evt);
     }, false);
     
-    myDebugDraw = getCanvasDebugDraw();            
+    myDebugDraw = customDebugDraw.getCanvasDebugDraw();
     myDebugDraw.SetFlags(e_shapeBit);
     
     myQueryCallback = new b2QueryCallback();
@@ -307,9 +307,11 @@ function createWorld() {
     mouseJointGroundBody = world.CreateBody( new b2BodyDef() );
     
     var e = document.getElementById("testSelection");
-    var v = e.options[e.selectedIndex].value;
-    
-    eval( "currentTest = new "+v+"();" );
+
+
+    //var v = e.options[e.selectedIndex].value;
+    //eval( "currentTest = new "+v+"();" );
+    currentTest = new embox2dTest_pyramid();;
     
     currentTest.setup();
 }
@@ -344,7 +346,8 @@ function step(timestamp) {
 }
 
 function draw() {
-    
+    //stats.begin();
+    //console.time("box2d");
     //black background
     context.fillStyle = 'rgb(0,0,0)';
     context.fillRect( 0, 0, canvas.width, canvas.height );
@@ -354,8 +357,8 @@ function draw() {
         context.scale(1,-1);                
         context.scale(PTM,PTM);
         context.lineWidth /= PTM;
-        
-        drawAxes(context);
+
+        customDebugDraw.drawAxes(context);
         
         context.fillStyle = 'rgb(255,255,0)';
         world.DrawDebugData();
@@ -372,6 +375,8 @@ function draw() {
         }
         
     context.restore();
+    //console.timeEnd("box2");
+    //stats.end();
 }
 
 function updateStats() {
